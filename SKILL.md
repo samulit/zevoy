@@ -133,8 +133,11 @@ Synthetic JavaScript events do not open these menus; use real clicks and keys.
 5. After all fields, read them back with the helper in `reference/ui.md`
    and redo any that did not stick.
 
-Type descriptions into the textarea directly. Pages lose injected helpers on
-every navigation, so re-inject them.
+Type descriptions into the textarea directly. Take any date in a
+description from the row's **Purchase date**, never from the list. Inflect
+the user's name only in the form the profile gives; without one, keep the
+name in the nominative. Pages lose injected helpers on every navigation, so
+re-inject them.
 
 ## Traps that cost money or time
 
