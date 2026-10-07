@@ -101,18 +101,32 @@ open).
    the airline e-ticket (search Gmail by booking reference with
    `in:anywhere`). Taxi receipts give real home-departure and home-arrival
    times. Then Downloads, then Gmail (see profile for addresses).
+   Downloaded receipts often carry generic names (`Your Electronic Ticket
+   Receipt (3).pdf`), and grep cannot see inside a PDF: match them on
+   content with `pdftotext` (booking reference, amount, card digits).
 3. **Match receipts from the pool first.** Click a thumbnail: email receipts
    open as HTML, so `get_page_text` reads the whole receipt (amounts, card,
    route). Clicking a row in the "Select an expense" list matches it at once
    and opens that row. If the receipt is not in the pool, upload it to the
-   row's file input with `file_upload` (Claude Code takes the local path;
-   claude.ai and Cowork need `device_stage_files` first and then the
-   `/mnt/user-data/uploads/...` path). Forward an email to the user's Zevoy
-   receipt inbox only when the profile allows it for that sender: shared
-   mailboxes mix business and personal bookings.
+   row's file input with `file_upload`. Claude Code takes a local path the
+   session may read, so copy a file from outside the working folder (such
+   as `~/Downloads`) to the scratchpad first; claude.ai and Cowork need
+   `device_stage_files` first and then the `/mnt/user-data/uploads/...`
+   path. Forward an email to the user's Zevoy receipt inbox only when the
+   profile allows it for that sender: shared mailboxes mix business and
+   personal bookings.
+   **A receipt that exists only as an email attachment** (an airline
+   e-ticket PDF, say): the Gmail connector reads the body, which is enough
+   to check amount, card and VAT, but it cannot save attachments. Ask the
+   user, then open the message in Chrome and click the button `find`
+   returns for "Download attachment <file name>". Check the file with
+   `pdftotext`, then name and file it as the profile says before
+   uploading.
 4. **Fill each row** at `.../transactions/pending/transaction/<id>/edit`
    (ids come from the probe). Use the field recipe below, read the fields
-   back, Save once, confirm the toast.
+   back, Save once, confirm the toast. A receipt upload is stored on the
+   row at once: when it is the only change, Save stays greyed out and
+   nothing needs saving. Reload and probe to confirm it.
 5. **Make claims** (per diem, mileage, expense claim) as described in
    `reference/claims.md`.
 6. **Probe again, log and report**: add the run to `log.md`, then give the

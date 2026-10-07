@@ -37,8 +37,10 @@ you sign in to Zevoy yourself with your bank ID.
    Chrome, waits for you to log in, reads your organisations, tag options,
    categories, cards and receipt inbox, and asks you a short round of
    questions about defaults.
-4. Receipts on your Mac (for example in `~/Downloads`) are uploaded
-   directly from their paths.
+4. Receipts on your Mac are uploaded from their paths. A file outside the
+   folder Claude Code runs in (for example in `~/Downloads`) is copied to
+   the session's scratchpad first, because the browser upload only takes
+   files the session may read.
 
 Update later with `git -C ~/.claude/skills/zevoy pull`; your data folder is
 not touched.

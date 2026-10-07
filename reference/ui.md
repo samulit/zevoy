@@ -34,7 +34,9 @@ at the top right.
 
 Fields, top to bottom: receipt tiles and **Add receipt** (a hidden
 `input[type=file]`; find it with `find` "file input for adding a receipt"
-and use `file_upload`, never click it), **Expense 1** with **Split**,
+and use `file_upload`, never click it; the upload is stored on the row at
+once, so if no field changed, Save stays greyed out and is not needed),
+**Expense 1** with **Split**,
 Category, VAT %, + Add VAT row, then the organisation's tag fields (for
 example Class, Country, Team), then Description.
 
@@ -129,5 +131,8 @@ fetches anything itself and never touches tokens; do not read
   JSON.
 - "Couldn't determine which page this action targets" or "extension is not
   connected": call `tabs_context_mcp` and retry once.
+- `file_upload` rejects paths the session may not read (for example
+  `~/Downloads` when the session runs in another folder). Copy the file to
+  the session's scratchpad and upload it from there.
 - Clicking by a `find` ref can scroll the page sideways; prefer coordinates
   from a fresh screenshot for the big orange buttons.
