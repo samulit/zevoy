@@ -11,24 +11,57 @@ does not follow the category, Save turning into Submit in the same spot,
 claim drafts that exist before you save them, and more.
 
 It never submits anything unless you say so, and per diem and mileage
-claims always stay pending for you to review.
+claims always stay pending for you to review. It never logs in for you:
+you sign in to Zevoy yourself with your bank ID.
 
-## Requirements
+## What you need
 
-- Claude Code (or the Claude app) with
-  [Claude in Chrome](https://claude.ai/chrome), and you logged in to Zevoy
-  in Chrome.
+- [Claude in Chrome](https://claude.ai/chrome), the browser extension,
+  connected to the same Claude account. Claude works in your own Chrome,
+  where you are logged in to Zevoy.
 - Optional but useful: the Gmail and Google Calendar connectors, for
   receipts, e-tickets and trip details.
 
-## Install
+## Use it in Claude Code
 
-```bash
-git clone https://github.com/samulit/zevoy ~/.claude/skills/zevoy
-```
+1. Install:
 
-In a new session, say "file my Zevoy receipts" or run `/zevoy`. Update
-later with `git -C ~/.claude/skills/zevoy pull`.
+   ```bash
+   git clone https://github.com/samulit/zevoy ~/.claude/skills/zevoy
+   ```
+
+2. Start a new session anywhere and say "file my Zevoy receipts", or run
+   `/zevoy`.
+3. On the first run Claude creates your private data folder
+   `~/.config/zevoy/` (or `$ZEVOY_DATA` if you set it), opens Zevoy in
+   Chrome, waits for you to log in, reads your organisations, tag options,
+   categories, cards and receipt inbox, and asks you a short round of
+   questions about defaults.
+4. Receipts on your Mac (for example in `~/Downloads`) are uploaded
+   directly from their paths.
+
+Update later with `git -C ~/.claude/skills/zevoy pull`; your data folder is
+not touched.
+
+## Use it in Cowork or the Claude app
+
+1. Download this repository as a ZIP (Code → Download ZIP), unzip it,
+   rename the folder `zevoy-main` to `zevoy`, and zip that folder again.
+   The ZIP you upload must contain the `zevoy` folder at its root.
+2. In Claude, open Customize → Skills, choose + → Create skill → Upload a
+   skill, and upload the ZIP. Skills you upload are private to your
+   account and work in both chat and Cowork.
+3. Turn on Claude in Chrome for the conversation.
+4. Keep your data where it persists:
+   - **Cowork:** give the session a folder on your computer (for example
+     `Documents/Zevoy`) and say "use Documents/Zevoy as the Zevoy data
+     folder". The first run fills it, and later runs read and update it.
+   - **Chat:** there is no persistent folder. Either put your three data
+     files in a `data/` folder inside the skill before zipping (Claude can
+     read them but not update them; it tells you what to add), or attach
+     them to the conversation.
+5. Receipts must be shared with the session before Claude can upload them
+   to Zevoy: put them in the Cowork folder, or attach them in chat.
 
 ## Your data stays yours
 
@@ -42,14 +75,9 @@ from `templates/`:
 | `precedents.md` | how each vendor or case is booked once you (or your accountant) have decided |
 | `log.md` | one entry per run: filed, pending, still missing |
 
-The folder is `$ZEVOY_DATA` if set, otherwise `~/.config/zevoy/`. On the
-first run Claude reads what it can from Zevoy (organisation ids, tag
-values, card names) and asks you for the rest. New facts about you go into
-the folder; new facts about Zevoy go into the skill.
-
-For the Claude app, which has no home folder, put your three files in a
-`data/` folder inside the skill, zip it, and upload it under Settings →
-Capabilities → Skills. `data/` is gitignored.
+New facts about you go into the folder; new facts about Zevoy or Finnish
+rules go into the skill. `data/` and `profile.md` are gitignored, so they
+never end up in a fork or a pull request.
 
 ## What a run does
 
@@ -68,12 +96,14 @@ Capabilities → Skills. `data/` is gitignored.
 
 ## Files
 
-- `SKILL.md`: the workflow, hard rules and the worst traps
+- `SKILL.md`: the workflow, first-run setup, hard rules and the worst traps
 - `reference/ui.md`: screen-by-screen mechanics and helpers
 - `reference/claims.md`: per diem, mileage and expense claims
 - `reference/rules.md`: Finnish VAT, per diem and mileage rules for checking
   Zevoy's numbers
-- `scripts/state.js`: read-only state probe
+- `scripts/state.js`: read-only probe of pending expenses and claims
+- `scripts/discover.js`: read-only first-run discovery (organisations, tags,
+  categories, cards, receipt inbox)
 - `templates/`: starting versions of the three private data files
 
 ## License

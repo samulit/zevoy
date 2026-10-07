@@ -20,10 +20,13 @@ user signs in to Zevoy themselves (bank ID). Never touch authentication.
 The skill is public; everything about the user lives in a private data
 folder. Use the first of these that exists:
 
-1. the folder in the `ZEVOY_DATA` environment variable;
-2. `~/.config/zevoy/`;
-3. `data/` next to this file (the Claude app, where the skill is uploaded
-   together with the user's data).
+1. a folder the user names in the conversation ("use Documents/Zevoy as
+   the Zevoy data folder"), which is how Cowork sessions do it;
+2. the folder in the `ZEVOY_DATA` environment variable;
+3. `~/.config/zevoy/`;
+4. `data/` next to this file (a skill uploaded to the Claude app together
+   with the user's data). This copy is read-only there: report new facts
+   for the user to add, and suggest a shared folder instead.
 
 It holds three files. Read `profile.md` (organisations and ids, required
 tags and defaults, receipt inbox and forwarding rules, receipt sources,
@@ -32,12 +35,25 @@ category, VAT and class decisions per vendor or case) before touching
 anything, and the latest entry of `log.md` (what the previous run left
 open).
 
-**If none exists, initialise it:** create `~/.config/zevoy/` (or `data/`
-when there is no home folder), copy the three files from `templates/`, and
-fill `profile.md` with the user. Read what you can from Zevoy itself
-(organisation ids from the switcher and URLs, tag names and values from an
-already exported row, card names from transactions) and ask only for the
-rest.
+**If none exists, set it up on this first run:**
+
+1. Create the folder (`~/.config/zevoy/`, or the folder the user names) and
+   copy the three files from `templates/`.
+2. Open `https://hub.production.zevoy.com` in Chrome and ask the user to
+   log in (bank ID; you never do this step).
+3. Read what Zevoy already knows with `scripts/discover.js`, one section at
+   a time (`window.ZEVOY_DISCOVER = '...'` in front of the file):
+   `orgs` on any page; then for each organisation `tags` and `cats` on an
+   expense edit form, and `cards` on `my-zevoy/cards`; `inbox` after
+   clicking the user's name ("My details"). Don't click Save changes there.
+4. Write what you found into `profile.md`, then ask the user only for what
+   Zevoy cannot tell you: which tags are required and their default
+   values, when to use each Class or project tag, which cards are private
+   and never filed, where receipts arrive (folders, mailboxes, what may be
+   forwarded to the receipt inbox), home address and usual distances, the
+   per diem fallback window, and who submits what. Offer sensible
+   defaults; one short round of questions.
+5. Show the user the finished profile, then start the normal workflow.
 
 ### Where new knowledge goes
 
