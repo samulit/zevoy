@@ -21,6 +21,11 @@ at the top right.
   matches the receipt immediately (no confirm step) and opens that expense.
   The extension may drop the connection during that jump; call
   `tabs_context_mcp` and carry on.
+- The match list shows only the current organisation's rows, and mail sent
+  to the receipt inbox lands in one organisation's pool. For a row in
+  another organisation, click **Download** under the open receipt (it
+  saves a PDF named like `0001-01-01--.pdf`) and upload that file to the
+  row; the original stays in the first pool.
 - The list's date is the clearing/booking date. The detail panel shows
   "Booking date" and "Purchase date".
 - The detail panel opens in **view mode** with **Edit** and **Submit** at
@@ -101,10 +106,13 @@ the suggestion with the right town. The distance fills in from the route.
 
 ## Submitting
 
-Not mapped yet: no run has submitted anything. Each row's view mode has a
-Submit button, and the lists have "Select visible" checkboxes for bulk
-actions. The first time the user asks you to submit, take a screenshot at
-each step, note any confirmation dialog, and add the steps here.
+Open the row in view mode (`transactions/pending/transaction/<id>`, no
+`/edit`) and click **Submit** at the bottom right, once. There is no
+confirmation dialog and usually no lasting toast: the panel closes and the
+list shows again. Confirm by reloading `transactions/pending` and checking
+that the id is gone and the Submitted counter went up. An "Authorized"
+(not yet cleared) row submits the same way. Bulk submit through "Select
+visible" is still unmapped.
 
 ## Discarding
 
